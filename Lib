@@ -262,7 +262,7 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
     sliderLabel.Position = UDim2.new(0, 10, 0, 5)
     sliderLabel.Text = name .. ": " .. defaultValue
     sliderLabel.Font = Enum.Font.Gotham
-    sliderLabel.TextSize = 12,
+    sliderLabel.TextSize = 12
     sliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     sliderLabel.BackgroundTransparency = 1
     sliderLabel.Parent = sliderFrame
@@ -328,7 +328,7 @@ function Library.addDropdown(container, labelText, options, callback)
     Dropdown.BackgroundTransparency = 0.6
     Dropdown.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Dropdown.Parent = container
-    addCorner(dropdown, 5)
+    addCorner(Dropdown, 5)
 
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(0.3, 0, 1, 0)
