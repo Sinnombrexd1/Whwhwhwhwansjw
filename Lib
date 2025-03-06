@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("lib")
+print("xd")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -240,7 +240,7 @@ function Library.addButton(container, buttonText, callback)
     button.Size = UDim2.new(1, -10, 0, 40)
     button.Text = buttonText
     button.TextSize = 12
-    button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.BackgroundTransparency = 0.4
     button.Parent = container
