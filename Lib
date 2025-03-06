@@ -248,7 +248,163 @@ function Library.addButton(container, buttonText, callback)
     button.MouseButton1Click:Connect(callback)
     return button
 end
+function Library.AddColorPicker(container, labelText, defaultColor, callback)
+    local ColorPicker = Instance.new("Frame")
+    ColorPicker.Size = UDim2.new(1, -10, 0, 45)
+    ColorPicker.BackgroundTransparency = 0.1
+    ColorPicker.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    ColorPicker.Parent = container
+    addCorner(ColorPicker, 5)
 
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.3, 0, 1, 0)
+    label.Text = labelText
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 14
+    label.Parent = ColorPicker
+
+    local pickerFrame = Instance.new("Frame")
+    pickerFrame.Size = UDim2.new(0, 140, 0, 30)
+    pickerFrame.Position = UDim2.new(0, 310, 0, 5)
+    pickerFrame.BackgroundColor3 = defaultColor or Color3.fromRGB(255, 255, 255)
+    pickerFrame.BackgroundTransparency = 0.1
+    pickerFrame.BorderSizePixel = 2
+    pickerFrame.BorderColor3 = Color3.fromRGB(80, 80, 80)
+    pickerFrame.Parent = ColorPicker
+    addCorner(pickerFrame, 6)
+
+    local openButton = Instance.new("TextButton")
+    openButton.Size = UDim2.new(1, 0, 1, 0)
+    openButton.Text = ""
+    openButton.BackgroundTransparency = 1
+    openButton.Parent = pickerFrame
+
+    local colorPickerPopup = Instance.new("Frame")
+    colorPickerPopup.Size = UDim2.new(0, 180, 0, 200)
+    colorPickerPopup.Position = UDim2.new(0.5, -150, 0.5, -75)
+    colorPickerPopup.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    colorPickerPopup.Visible = false
+    colorPickerPopup.BorderSizePixel = 2
+    colorPickerPopup.BorderColor3 = Color3.fromRGB(100, 100, 100)
+    colorPickerPopup.Parent = Main
+    addCorner(colorPickerPopup, 8)
+
+    local colorWheel = Instance.new("ImageLabel")
+    colorWheel.Size = UDim2.new(0, 150, 0, 150)
+    colorWheel.Position = UDim2.new(0.5, -75, 0, 10)
+    colorWheel.Image = "rbxassetid://142488478"
+    colorWheel.BackgroundTransparency = 1
+    colorWheel.Active = true
+    colorWheel.Parent = colorPickerPopup
+
+    local colorSelector = Instance.new("Frame")
+    colorSelector.Size = UDim2.new(0, 10, 0, 10)
+    colorSelector.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    colorSelector.BorderSizePixel = 2
+    colorSelector.Parent = colorWheel
+    addCorner(colorSelector, 5)
+
+    local confirmButton = Instance.new("TextButton")
+    confirmButton.Size = UDim2.new(0.5, -5, 0, 30)
+    confirmButton.Position = UDim2.new(0, 5, 1, -40)
+    confirmButton.Text = "Confirm"
+    confirmButton.Font = Enum.Font.Gotham
+    confirmButton.TextSize = 14
+    confirmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    confirmButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    confirmButton.BorderSizePixel = 0
+    confirmButton.Parent = colorPickerPopup
+    addCorner(confirmButton, 5)
+
+    local rainbowButton = Instance.new("TextButton")
+    rainbowButton.Size = UDim2.new(0.5, -5, 0, 30)
+    rainbowButton.Position = UDim2.new(0.5, 0, 1, -40)
+    rainbowButton.Text = "Rainbow"
+    rainbowButton.Font = Enum.Font.Gotham
+    rainbowButton.TextSize = 14
+    rainbowButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    rainbowButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    rainbowButton.BorderSizePixel = 0
+    rainbowButton.Parent = colorPickerPopup
+    addCorner(rainbowButton, 5)
+
+    local rainbowActive = false
+    local rainbowConnection
+
+    local function updateColor(input)
+        local mousePosition = input.Position
+        local relativePosition = colorWheel.AbsolutePosition
+        local x = (mousePosition.X - relativePosition.X) / colorWheel.AbsoluteSize.X
+        local y = (mousePosition.Y - relativePosition.Y) / colorWheel.AbsoluteSize.Y
+        x = math.clamp(x, 0, 1)
+        y = math.clamp(y, 0, 1)
+
+        colorSelector.Position = UDim2.new(x, -5, y, -5)
+        pickerFrame.BackgroundColor3 = Color3.fromHSV(x, 1 - y, 1)
+
+        if callback then
+            callback(pickerFrame.BackgroundColor3)
+        end
+    end
+
+    colorWheel.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            updateColor(input)
+            local connection
+            connection = game:GetService("UserInputService").InputChanged:Connect(function(moveInput)
+                if moveInput.UserInputType == Enum.UserInputType.MouseMovement or moveInput.UserInputType == Enum.UserInputType.Touch then
+                    updateColor(moveInput)
+                end
+            end)
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    connection:Disconnect()
+                end
+            end)
+        end
+    end)
+
+    confirmButton.MouseButton1Click:Connect(function()
+        colorPickerPopup.Visible = false
+        if callback then
+            callback(pickerFrame.BackgroundColor3)
+        end
+    end)
+
+    rainbowButton.MouseButton1Click:Connect(function()
+        rainbowActive = not rainbowActive
+        rainbowButton.BackgroundColor3 = rainbowActive and Color3.fromRGB(60, 0, 120) or Color3.fromRGB(25, 25, 25)
+
+        if rainbowActive then
+            local step = 0
+            rainbowConnection = game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
+                step = (step + deltaTime * 0.1) % 1
+                local color = Color3.fromHSV(step, 1, 1)
+                pickerFrame.BackgroundColor3 = color
+                
+                if callback then
+                    callback(color)
+                end
+            end)
+        else
+            if rainbowConnection then
+                rainbowConnection:Disconnect()
+                rainbowConnection = nil
+            end
+        end
+    end)
+
+    openButton.MouseButton1Click:Connect(function()
+        colorPickerPopup.Visible = not colorPickerPopup.Visible
+    end)
+
+    return ColorPicker
+end
 function Library.addToggle(container, labelText, defaultState, callback)
     local toggleFrame = Instance.new("Frame")
     toggleFrame.Size = UDim2.new(1, 0, 0, 40)
