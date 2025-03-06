@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("xd")
+print("lib")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -290,7 +290,7 @@ function Library.AddColorPicker(container, labelText, defaultColor, callback)
     colorPickerPopup.Visible = false
     colorPickerPopup.BorderSizePixel = 2
     colorPickerPopup.BorderColor3 = Color3.fromRGB(100, 100, 100)
-    colorPickerPopup.Parent = Main
+    colorPickerPopup.Parent = container
     addCorner(colorPickerPopup, 8)
 
     local colorWheel = Instance.new("ImageLabel")
