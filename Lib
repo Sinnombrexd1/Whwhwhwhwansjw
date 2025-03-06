@@ -14,7 +14,7 @@ function Library:CreateUI(title, description)
     ScreenGui.Parent = gui
     
     local MainFrame = Instance.new("Frame")
-    MainFrame.Size = UDim2.new(0, 700, 0, 365)
+    MainFrame.Size = UDim2.new(0, 680, 0, 360)
     MainFrame.Position = UDim2.new(0.5, -350, 0.5, -200)
     MainFrame.BackgroundColor3 = Color3.fromRGB(32, 26, 20)
     MainFrame.BorderSizePixel = 0
@@ -315,7 +315,7 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
     sliderLabel.Position = UDim2.new(0, 10, 0, 5)
     sliderLabel.Text = name .. ": " .. defaultValue
     sliderLabel.Font = Enum.Font.Gotham
-    sliderLabel.TextSize = 12
+    sliderLabel.TextSize = 14
     sliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     sliderLabel.BackgroundTransparency = 1
     sliderLabel.Parent = sliderFrame
