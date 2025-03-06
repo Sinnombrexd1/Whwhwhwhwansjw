@@ -22,6 +22,7 @@ function Library:CreateUI(title, description)
     addCorner(MainFrame, 7)
     MainFrame.Active = true
     MainFrame.Draggable = true
+    self.MainFrame = MainFrame 
     
     local TopBar = Instance.new("Frame")
 TopBar.Size = UDim2.new(1, 0, 0, 30)
@@ -129,7 +130,7 @@ function UIInstance:AddTab(tabName)
     tabButton.Text = tabName
     tabButton.Font = Enum.Font.GothamBold
     tabButton.TextSize = 14
-    tabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    tabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     tabButton.BackgroundTransparency = 0.4
     tabButton.Parent = TabsContainer
