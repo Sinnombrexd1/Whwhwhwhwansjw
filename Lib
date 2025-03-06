@@ -115,11 +115,9 @@ Container.Parent = MainFrame
         if isMinimized then
             MainFrame.Size = normalSize
             isMinimized = false
-            Container = false
         else
             MainFrame.Size = UDim2.new(0, 700, 0, 30)
             isMinimized = true
-            Container = true
         end
     end)
     
@@ -330,7 +328,7 @@ function Library.addDropdown(container, labelText, options, callback)
     Dropdown.BackgroundTransparency = 0.6
     Dropdown.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Dropdown.Parent = container
-    addCorner(dropdownFrame, 5)
+    addCorner(dropdown, 5)
 
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(0.3, 0, 1, 0)
