@@ -249,4 +249,265 @@ function Library.addToggle(container, labelText, defaultState, callback)
     return toggleFrame
 end
 
+function Library.addSlider(container, name, minValue, maxValue, defaultValue, increment, callback)
+    local sliderFrame = Instance.new("Frame")
+    sliderFrame.Size = UDim2.new(1, 0, 0, 40)
+    sliderFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    sliderFrame.BackgroundTransparency = 0.6
+    sliderFrame.Parent = container
+    addCorner(sliderFrame, 5)
+
+    local sliderLabel = Instance.new("TextLabel")
+    sliderLabel.Size = UDim2.new(0, 100, 0, 20)
+    sliderLabel.Position = UDim2.new(0, 10, 0, 5)
+    sliderLabel.Text = name .. ": " .. defaultValue
+    sliderLabel.Font = Enum.Font.Gotham
+    sliderLabel.TextSize = 12,
+    sliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    sliderLabel.BackgroundTransparency = 1
+    sliderLabel.Parent = sliderFrame
+
+    local sliderTrack = Instance.new("Frame")
+    sliderTrack.Size = UDim2.new(1, -20, 0, 5)
+    sliderTrack.Position = UDim2.new(0, 2, 0, 35)
+    sliderTrack.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    sliderTrack.Parent = sliderFrame
+    addCorner(sliderTrack, 5)
+
+    local sliderThumb = Instance.new("Frame")
+    sliderThumb.Size = UDim2.new(0, 10, 0, 15)
+    sliderThumb.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    sliderThumb.Parent = sliderTrack
+    addCorner(sliderThumb, 5)
+
+    local function round(value, decimalPlaces)
+        local factor = 10 ^ decimalPlaces
+        return math.floor(value * factor + 0.5) / factor
+    end
+
+    local function updateSlider(input)
+        local mousePosition = input.Position
+        local relativePosition = sliderTrack.AbsolutePosition
+        local x = (mousePosition.X - relativePosition.X) / sliderTrack.AbsoluteSize.X
+        x = math.clamp(x, 0, 1)
+
+        local rawValue = minValue + (maxValue - minValue) * x
+        local value = round(rawValue - (rawValue % increment), 2)
+
+        value = math.clamp(value, minValue, maxValue)
+
+        local thumbPosition = (value - minValue) / (maxValue - minValue)
+        sliderThumb.Position = UDim2.new(thumbPosition, -5, 0.5, -7.5)
+        sliderLabel.Text = name .. ": " .. value
+        callback(value)
+    end
+
+    sliderTrack.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            updateSlider(input)
+            local connection
+            connection = input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    connection:Disconnect()
+                else
+                    updateSlider(input)
+                end
+            end)
+        end
+    end)
+
+    local initialValue = round(defaultValue - (defaultValue % increment), 2)
+    local initialX = (initialValue - minValue) / (maxValue - minValue)
+    sliderThumb.Position = UDim2.new(initialX, -5, 0.5, -7.5)
+    sliderLabel.Text = name .. ": " .. initialValue
+end
+
+function Library.addDropdown(container, labelText, options, callback)
+    local Dropdown = Instance.new("Frame")
+    Dropdown.Size = UDim2.new(1, 0, 0, 40)
+    Dropdown.BackgroundTransparency = 0.6
+    Dropdown.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Dropdown.Parent = container
+    addCorner(dropdown, 5)
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.3, 0, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.Text = labelText
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 11
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = Dropdown
+
+    local dropdownFrame = Instance.new("Frame")
+    dropdownFrame.Size = UDim2.new(0.5, 0, 1, 0)
+    dropdownFrame.Position = UDim2.new(0.5, 0, 0, 0)
+    dropdownFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    dropdownFrame.Parent = Dropdown
+    addCorner(dropdownFrame, 5)
+
+    local dropdownButton = Instance.new("TextButton")
+    dropdownButton.Size = UDim2.new(1, 0, 1, 0)
+    dropdownButton.Text = "Seleccionar"
+    dropdownButton.Font = Enum.Font.Gotham
+    dropdownButton.TextSize = 12
+    dropdownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    dropdownButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    dropdownButton.Parent = dropdownFrame
+    addCorner(dropdownButton, 5)
+
+    local dropdownList = Instance.new("Frame")
+    dropdownList.Size = UDim2.new(1, 0, 0, #options * 35)
+    dropdownList.Position = UDim2.new(0, 0, 1, 5)
+    dropdownList.Visible = false
+    dropdownList.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    dropdownList.ClipsDescendants = true
+    dropdownList.Parent = dropdownFrame
+    addCorner(dropdownList, 5)
+
+    local dropdownLayout = Instance.new("UIListLayout")
+    dropdownLayout.Parent = dropdownList
+    dropdownLayout.Padding = UDim.new(0, 2)
+
+    dropdownButton.MouseButton1Click:Connect(function()
+        dropdownList.Visible = not dropdownList.Visible
+    end)
+
+    for _, option in ipairs(options) do
+        local optionButton = Instance.new("TextButton")
+        optionButton.Size = UDim2.new(1, 0, 0, 35)
+        optionButton.Text = option
+        optionButton.Font = Enum.Font.Gotham
+        optionButton.TextSize = 14
+        optionButton.ZIndex = 4
+        optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        optionButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        optionButton.Parent = dropdownList
+        addCorner(optionButton, 4)
+
+        optionButton.MouseEnter:Connect(function()
+            optionButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+        end)
+
+        optionButton.MouseLeave:Connect(function()
+            optionButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        end)
+
+        optionButton.MouseButton1Click:Connect(function()
+            dropdownButton.Text = option
+            dropdownList.Visible = false
+            if callback then
+                callback(option)
+            end
+        end)
+    end
+end
+
+function Library.addTextbox(container, labelText, placeholderText, defaultText, callback)
+    local textboxFrame = Instance.new("Frame")
+    textboxFrame.Size = UDim2.new(1, 0, 0, 40)
+    textboxFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    textboxFrame.BackgroundTransparency = 0.6
+    textboxFrame.Parent = container
+
+    if addCorner then
+        addCorner(textboxFrame, 5)
+    end
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0, 100, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.Text = labelText
+    label.TextSize = 12
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.Parent = textboxFrame
+
+    local textBox = Instance.new("TextBox")
+    textBox.Size = UDim2.new(0.4, 0, 1, 0)
+    textBox.Position = UDim2.new(0.6, 0, 0, 0)
+    textBox.Text = defaultText
+    textBox.PlaceholderText = placeholderText
+    textBox.Font = Enum.Font.Gotham
+    textBox.TextSize = 14
+    textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textBox.BackgroundColor3 = Color3.fromRGB(25, 26, 25)
+    textBox.Parent = textboxFrame
+
+    if addCorner then
+        addCorner(textBox, 5)
+    end
+
+    textBox.FocusLost:Connect(function(enterPressed)
+        if enterPressed and callback then
+            callback(textBox.Text)
+        end
+    end)
+end
+
+function Library.addParagraph(container, text)
+    local paragraphFrame = Instance.new("Frame")
+    paragraphFrame.Size = UDim2.new(1, 0, 0, 40)
+    paragraphFrame.BackgroundTransparency = 1
+    paragraphFrame.Parent = container
+
+    local paragraphLabel = Instance.new("TextLabel")
+    paragraphLabel.Size = UDim2.new(1, -20, 1, 0)
+    paragraphLabel.Position = UDim2.new(0, 10, 0, 0)
+    paragraphLabel.Text = text
+    paragraphLabel.TextWrapped = true
+    paragraphLabel.TextScaled = false
+    paragraphLabel.TextSize = 13
+    paragraphLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    paragraphLabel.BackgroundTransparency = 1
+    paragraphLabel.TextXAlignment = Enum.TextXAlignment.Left
+    paragraphLabel.TextYAlignment = Enum.TextYAlignment.Top
+    paragraphLabel.Parent = paragraphFrame
+end
+
+function Library.addSection(container, title)
+    local section = Instance.new("Frame")
+    section.Size = UDim2.new(1, 0, 0, 40)
+    section.BackgroundTransparency = 0.1
+    section.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    section.Parent = container
+
+    local sectionLabel = Instance.new("TextLabel")
+    sectionLabel.Size = UDim2.new(0, 200, 1, 0)
+    sectionLabel.Position = UDim2.new(0.5, -100, 0, 0)
+    sectionLabel.Text = title or "Section"
+    sectionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    sectionLabel.Font = Enum.Font.GothamBold
+    sectionLabel.TextSize = 13
+    sectionLabel.BackgroundTransparency = 1
+    sectionLabel.TextXAlignment = Enum.TextXAlignment.Center
+    sectionLabel.Parent = section
+end
+
+function Library.addLabel(container, text)
+    local labelFrame = Instance.new("Frame")
+    labelFrame.Size = UDim2.new(1, 0, 0, 40)
+    labelFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    labelFrame.BackgroundTransparency = 0.8
+    labelFrame.Parent = container
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -10, 1, -10)
+    label.Position = UDim2.new(0, 5, 0, 5)
+    label.Text = text
+    label.Font = Enum.Font.GothamBold
+    label.TextSize = 12
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.TextXAlignment = Enum.TextXAlignment.Center
+    label.Parent = labelFrame
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = labelFrame
+end
+
 return Library
