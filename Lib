@@ -22,7 +22,59 @@ function Library:CreateUI(title, description)
     addCorner(MainFrame, 7)
     MainFrame.Active = true
     MainFrame.Draggable = true
-    self.MainFrame = MainFrame 
+
+local existingGui = game:GetService("CoreGui"):FindFirstChild("mygui")
+if existingGui then return end
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "mygui"
+screenGui.Parent = game:GetService("CoreGui")
+
+local button = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+local clickSound = Instance.new("Sound")
+
+button.Name = "Button"
+button.Size = UDim2.new(0, 50, 0, 50)
+button.Position = UDim2.new(0.12, 0, 0.1, 0)
+button.Text = "OFF"
+button.Font = Enum.Font.Gotham
+button.TextSize = 14
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+button.BackgroundTransparency = 0.3
+button.Draggable = true
+button.BorderSizePixel = 0
+button.Parent = screenGui
+
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = button
+
+clickSound.SoundId = "rbxassetid://1673280232"
+clickSound.Parent = button
+
+local isActive = false
+
+local function toggleButton()
+    isActive = not isActive
+    if isActive then
+        button.Text = ""
+        button.BackgroundColor3 = Color3.fromRGB(173, 216, 230)
+    else
+        button.Text = ""
+        button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    end
+
+    MainFrame.Visible = isActive
+    clickSound:Play()
+
+    button:TweenSize(UDim2.new(0, 70, 0, 60), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    wait(0.2)
+    button:TweenSize(UDim2.new(0, 60, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+end
+
+button.MouseButton1Click:Connect(toggleButton)
+ 
     
     local TopBar = Instance.new("Frame")
 TopBar.Size = UDim2.new(1, 0, 0, 30)
