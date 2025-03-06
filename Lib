@@ -12,7 +12,7 @@ end
 function Library:CreateUI(title, description)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Parent = gui
-    ScreenGui.ResetOnSpawn
+    ScreenGui.ResetOnSpawn = false
     
     local MainFrame = Instance.new("Frame")
     MainFrame.Size = UDim2.new(0, 700, 0, 365)
