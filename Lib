@@ -407,8 +407,8 @@ function Library.AddColorPicker(container, labelText, defaultColor, callback)
 end
 function Library.addToggle(container, labelText, defaultState, callback)
     local toggleFrame = Instance.new("Frame")
-    toggleFrame.Size = UDim2.new(1, 0, 0, 40)
-    toggleFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    toggleFrame.Size = UDim2.new(1, 0, 0, 50)
+    toggleFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     toggleFrame.BackgroundTransparency = 0.6
     toggleFrame.Parent = container
 
@@ -486,7 +486,7 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
 
     local sliderFill = Instance.new("Frame")
     sliderFill.Size = UDim2.new(0, 0, 1, 0)
-    sliderFill.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+    sliderFill.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     sliderFill.Parent = sliderTrack
     addCorner(sliderFill, 6)
 
