@@ -551,7 +551,7 @@ function Library.addDropdown(container, labelText, options, callback)
     label.Position = UDim2.new(0, 10, 0, 0)
     label.Text = labelText
     label.Font = Enum.Font.Gotham
-    label.TextSize = 11
+    label.TextSize = 13
     label.TextColor3 = Color3.fromRGB(255, 255, 255)
     label.BackgroundTransparency = 1
     label.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
