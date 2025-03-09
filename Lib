@@ -180,16 +180,43 @@ Container.Parent = MainFrame
     end)
     
     local isMinimized = false
-    local normalSize = MainFrame.Size
-    MinimizeButton.MouseButton1Click:Connect(function()
-        if isMinimized then
-            MainFrame.Size = normalSize
-            isMinimized = false
-        else
-            MainFrame.Size = UDim2.new(0, 670, 0, 30)
-            isMinimized = true
-        end
-    end)
+local normalSize = MainFrame.Size
+local originalPosition = MainFrame.Position
+local TweenService = game:GetService("TweenService")
+
+MinimizeButton.MouseButton1Click:Connect(function()
+    isMinimized = not isMinimized
+
+    if isMinimized then
+        local tween = TweenService:Create(MainFrame, 
+            TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+            {Size = UDim2.new(0, normalSize.X.Offset, 0, 30)}
+        )
+        tween:Play()
+        MinimizeButton.Text = "+"
+
+    else
+        local tween = TweenService:Create(MainFrame, 
+            TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+            {Size = normalSize, Position = originalPosition}
+        )
+        tween:Play()
+        task.wait(0.3)
+        MinimizeButton.Text = "-"
+    end
+end)
+
+MinimizeButton.MouseEnter:Connect(function()
+    TweenService:Create(MinimizeButton, TweenInfo.new(0.2), {
+        BackgroundColor3 = Color3.fromRGB(255, 220, 50)
+    }):Play()
+end)
+
+MinimizeButton.MouseLeave:Connect(function()
+    TweenService:Create(MinimizeButton, TweenInfo.new(0.2), {
+        BackgroundColor3 = Color3.fromRGB(255, 200, 0)
+    }):Play()
+end)
     
     local UIInstance = {TabsContainer = TabsContainer, Container = Container}
     
