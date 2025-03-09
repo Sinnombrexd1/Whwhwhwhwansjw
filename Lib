@@ -179,7 +179,7 @@ Container.Parent = MainFrame
         ScreenGui:Destroy()
     end)
     
-    local isMinimized = false
+local isMinimized = false
 local normalSize = MainFrame.Size
 local originalPosition = MainFrame.Position
 local TweenService = game:GetService("TweenService")
@@ -194,11 +194,11 @@ MinimizeButton.MouseButton1Click:Connect(function()
         )
         tween:Play()
         MinimizeButton.Text = "+"
-
+        
     else
         local tween = TweenService:Create(MainFrame, 
             TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            {Size = normalSize, Position = originalPosition}
+            {Size = normalSize} -- Eliminé Position para que no se mueva
         )
         tween:Play()
         task.wait(0.3)
