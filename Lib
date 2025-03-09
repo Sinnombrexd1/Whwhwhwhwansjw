@@ -14,31 +14,110 @@ end
 function Library:CreateUI(title, description)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Parent = gui
-    
-    local MainFrame = Instance.new("Frame")
-    MainFrame.Size = UDim2.new(0, 670, 0, 360)
-    MainFrame.Position = UDim2.new(0.5, -500, 1, 0)
-    MainFrame.BackgroundColor3 = Color3.fromRGB(32, 26, 20)
-    MainFrame.BorderSizePixel = 0
-    MainFrame.Parent = ScreenGui
-    addCorner(MainFrame, 7)
-    MainFrame.Active = true
-    MainFrame.Draggable = true
 
-    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
-    local goal = {Position = UDim2.new(0.5, -350, 0.5, -200)}
-    local tween = TweenService:Create(MainFrame, tweenInfo, goal)
-    
-    tween:Play()
-    tween.Completed:Connect(function()
-        print("UI loaded")
-    end)
-    
-     local border = Instance.new("UIStroke")
-    border.Parent = MainFrame
-    border.Thickness = 2
-    border.Color = Color3.fromRGB(255, 0, 0)
-    border.Transparency = 0.5
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 670, 0, 360)
+MainFrame.Position = UDim2.new(0.5, -500, 1, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(32, 26, 20)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = ScreenGui
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+local goal = {Position = UDim2.new(0.5, -350, 0.5, -200)}
+local tween = TweenService:Create(MainFrame, tweenInfo, goal)
+
+tween:Play()
+tween.Completed:Connect(function()
+    print("UI loaded")
+end)
+
+local backgroundOverlay = Instance.new("Frame")
+backgroundOverlay.Size = UDim2.new(1, 0, 1, 0)
+backgroundOverlay.Position = UDim2.new(0, 0, 0, 0)
+backgroundOverlay.ZIndex = 2
+backgroundOverlay.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+backgroundOverlay.BackgroundTransparency = 0.4
+backgroundOverlay.Parent = MainFrame
+backgroundOverlay.Visible = false
+
+local confirmationFrame = Instance.new("Frame")
+confirmationFrame.Size = UDim2.new(0, 300, 0, 150)
+confirmationFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+confirmationFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+confirmationFrame.BackgroundTransparency = 0.2
+confirmationFrame.Parent = backgroundOverlay
+confirmationFrame.ZIndex = 3
+
+local confirmationLabel = Instance.new("TextLabel")
+confirmationLabel.Text = "Are you sure you want to Destroy the GUI?"
+confirmationLabel.Font = Enum.Font.GothamBold
+confirmationLabel.TextSize = 18
+confirmationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+confirmationLabel.BackgroundTransparency = 1
+confirmationLabel.Size = UDim2.new(1, 0, 0, 50)
+confirmationLabel.ZIndex = 5
+confirmationLabel.Parent = confirmationFrame
+
+local yesButton = Instance.new("TextButton")
+yesButton.Text = "Yeah"
+yesButton.Font = Enum.Font.GothamBold
+yesButton.ZIndex = 5
+yesButton.TextSize = 16
+yesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+yesButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+yesButton.Size = UDim2.new(0.5, -10, 0, 40)
+yesButton.Position = UDim2.new(0, 5, 1, -45)
+yesButton.Parent = confirmationFrame
+
+local noButton = Instance.new("TextButton")
+noButton.Text = "No"
+noButton.Font = Enum.Font.GothamBold
+noButton.TextSize = 16
+noButton.ZIndex = 5
+noButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+noButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+noButton.Size = UDim2.new(0.5, -10, 0, 40)
+noButton.Position = UDim2.new(0.5, 5, 1, -45)
+noButton.Parent = confirmationFrame
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 20, 0, 20)
+CloseButton.Position = UDim2.new(1, -25, 0, 5)
+CloseButton.BackgroundTransparency = 1
+CloseButton.Text = "X"
+CloseButton.ZIndex = 11
+CloseButton.TextSize = 16
+CloseButton.TextColor3 = Color3.fromRGB(255, 100, 100)
+CloseButton.Font = Enum.Font.SourceSans
+CloseButton.Parent = MainFrame -- Corregido: antes estaba asignado a 'TopBar' (que no existía)
+
+CloseButton.MouseButton1Click:Connect(function()
+    backgroundOverlay.Visible = true
+end)
+
+yesButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+noButton.MouseButton1Click:Connect(function()
+    backgroundOverlay.Visible = false
+end)
+
+CloseButton.MouseEnter:Connect(function()
+    CloseButton.BackgroundTransparency = 0
+end)
+
+CloseButton.MouseLeave:Connect(function()
+    CloseButton.BackgroundTransparency = 1
+end)
+
+local border = Instance.new("UIStroke")
+border.Parent = MainFrame
+border.Thickness = 2
+border.Color = Color3.fromRGB(255, 0, 0)
+border.Transparency = 0.5
 
 local existingGui = game:GetService("CoreGui"):FindFirstChild("mygui")
 if existingGui then existingGui:Destroy() end
@@ -91,6 +170,15 @@ TopBar.BorderSizePixel = 0
 TopBar.ZIndex = 10
 TopBar.Parent = MainFrame
 addCorner(TopBar, 5)
+
+local shadow = Instance.new("ImageLabel")
+shadow.Size = UDim2.new(1, 30, 1, 30)
+shadow.Position = UDim2.new(0, -15, 0, -15)
+shadow.Image = "rbxassetid://1316045217"
+shadow.ImageTransparency = 0.5
+shadow.BackgroundTransparency = 1
+shadow.ZIndex = -1
+shadow.Parent = MainFrame
     
     local RedLine = Instance.new("Frame")
 RedLine.Size = UDim2.new(1, 0, 0, 2)
@@ -135,17 +223,6 @@ RedLine.Parent = TopBar
     MinimizeButton.Font = Enum.Font.SourceSans
     MinimizeButton.Parent = TopBar
     
-    local CloseButton = Instance.new("TextButton")
-    CloseButton.Size = UDim2.new(0, 20, 1, 0)
-    CloseButton.Position = UDim2.new(1, -25, 0, 0)
-    CloseButton.BackgroundTransparency = 1
-    CloseButton.Text = "X"
-    CloseButton.ZIndex = 11
-    CloseButton.TextSize = 16
-    CloseButton.TextColor3 = Color3.fromRGB(255, 100, 100)
-    CloseButton.Font = Enum.Font.SourceSans
-    CloseButton.Parent = TopBar
-    
     local TabsContainer = Instance.new("ScrollingFrame")
     TabsContainer.Size = UDim2.new(0.3, 0, 1, -30)
     TabsContainer.Position = UDim2.new(0, 0, 0, 30)
@@ -173,19 +250,13 @@ Container.Parent = MainFrame
     ContainerListLayout.SortOrder = Enum.SortOrder.LayoutOrder  
     ContainerListLayout.Padding = UDim.new(0, 5)  
     ContainerListLayout.Parent = Container  
-     
-    
-    CloseButton.MouseButton1Click:Connect(function()
-        ScreenGui:Destroy()
-    end)
     
 local isMinimized = false
 local normalSize = MainFrame.Size
 local TweenService = game:GetService("TweenService")
 
--- Asegurar que el AnchorPoint evita cambios de posición inesperados
-MainFrame.AnchorPoint = Vector2.new(0.5, 0)
-MainFrame.Position = UDim2.new(0.5, 0, MainFrame.Position.Y.Scale, MainFrame.Position.Y.Offset)
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.Position = UDim2.new(0.5, -350, 0.5, -200)
 
 MinimizeButton.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
@@ -201,7 +272,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
     else
         local tween = TweenService:Create(MainFrame, 
             TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            {Size = normalSize}
+            {Size = normalSize, Position = UDim2.new(0.5, -350, 0.5, -200)}
         )
         tween:Play()
         task.wait(0.3)
