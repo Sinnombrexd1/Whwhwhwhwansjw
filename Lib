@@ -36,7 +36,7 @@ end)
 local backgroundOverlay = Instance.new("Frame")
 backgroundOverlay.Size = UDim2.new(1, 0, 1, 0)
 backgroundOverlay.Position = UDim2.new(0, 0, 0, 0)
-backgroundOverlay.ZIndex = 2
+backgroundOverlay.ZIndex = 18
 backgroundOverlay.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 backgroundOverlay.BackgroundTransparency = 0.4
 backgroundOverlay.Parent = MainFrame
@@ -48,22 +48,20 @@ confirmationFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
 confirmationFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 confirmationFrame.BackgroundTransparency = 0.2
 confirmationFrame.Parent = backgroundOverlay
-confirmationFrame.ZIndex = 3
+confirmationFrame.ZIndex = 19
 
 local confirmationLabel = Instance.new("TextLabel")
 confirmationLabel.Text = "Are you sure you want to Destroy the GUI?"
-confirmationLabel.Font = Enum.Font.GothamBold
-confirmationLabel.TextSize = 18
+confirmationLabel.TextSize = 20
 confirmationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 confirmationLabel.BackgroundTransparency = 1
 confirmationLabel.Size = UDim2.new(1, 0, 0, 50)
-confirmationLabel.ZIndex = 5
+confirmationLabel.ZIndex = 18
 confirmationLabel.Parent = confirmationFrame
 
 local yesButton = Instance.new("TextButton")
 yesButton.Text = "Yeah"
-yesButton.Font = Enum.Font.GothamBold
-yesButton.ZIndex = 5
+yesButton.ZIndex = 20
 yesButton.TextSize = 16
 yesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 yesButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
@@ -73,9 +71,8 @@ yesButton.Parent = confirmationFrame
 
 local noButton = Instance.new("TextButton")
 noButton.Text = "No"
-noButton.Font = Enum.Font.GothamBold
 noButton.TextSize = 16
-noButton.ZIndex = 5
+noButton.ZIndex = 20
 noButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 noButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
 noButton.Size = UDim2.new(0.5, -10, 0, 40)
@@ -87,11 +84,11 @@ CloseButton.Size = UDim2.new(0, 20, 0, 20)
 CloseButton.Position = UDim2.new(1, -25, 0, 5)
 CloseButton.BackgroundTransparency = 1
 CloseButton.Text = "X"
-CloseButton.ZIndex = 11
+CloseButton.ZIndex = 20
 CloseButton.TextSize = 16
 CloseButton.TextColor3 = Color3.fromRGB(255, 100, 100)
 CloseButton.Font = Enum.Font.SourceSans
-CloseButton.Parent = MainFrame -- Corregido: antes estaba asignado a 'TopBar' (que no existía)
+CloseButton.Parent = MainFrame
 
 CloseButton.MouseButton1Click:Connect(function()
     backgroundOverlay.Visible = true
@@ -255,8 +252,8 @@ local isMinimized = false
 local normalSize = MainFrame.Size
 local TweenService = game:GetService("TweenService")
 
-MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-MainFrame.Position = UDim2.new(0.5, -350, 0.5, -200)
+MainFrame.AnchorPoint = Vector2.new(0.5, -350, 0.5, -200)
+MainFrame.Position = UDim2.new(0.5, -350, 0.5, -200, MainFrame.Position.Y.Scale, MainFrame.Position.Y.Offset)
 
 MinimizeButton.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
@@ -272,7 +269,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
     else
         local tween = TweenService:Create(MainFrame, 
             TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            {Size = normalSize, Position = UDim2.new(0.5, -350, 0.5, -200)}
+            {Size = normalSize}
         )
         tween:Play()
         task.wait(0.3)
