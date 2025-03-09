@@ -181,8 +181,11 @@ Container.Parent = MainFrame
     
 local isMinimized = false
 local normalSize = MainFrame.Size
-local originalPosition = MainFrame.Position
 local TweenService = game:GetService("TweenService")
+
+-- Asegurar que el AnchorPoint evita cambios de posición inesperados
+MainFrame.AnchorPoint = Vector2.new(0.5, 0)
+MainFrame.Position = UDim2.new(0.5, 0, MainFrame.Position.Y.Scale, MainFrame.Position.Y.Offset)
 
 MinimizeButton.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
@@ -190,7 +193,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
     if isMinimized then
         local tween = TweenService:Create(MainFrame, 
             TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            {Size = UDim2.new(0, normalSize.X.Offset, 0, 30)}
+            {Size = UDim2.new(normalSize.X.Scale, normalSize.X.Offset, 0, 30)}
         )
         tween:Play()
         MinimizeButton.Text = "+"
@@ -198,7 +201,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
     else
         local tween = TweenService:Create(MainFrame, 
             TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            {Size = normalSize} -- Eliminé Position para que no se mueva
+            {Size = normalSize}
         )
         tween:Play()
         task.wait(0.3)
