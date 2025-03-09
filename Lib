@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("lib")
+print("libre")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -23,6 +23,7 @@ MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
 MainFrame.Active = true
 MainFrame.Draggable = true
+addCorner(MainFrame, 7)
 
 local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
 local goal = {Position = UDim2.new(0.5, -350, 0.5, -200)}
@@ -68,6 +69,7 @@ yesButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
 yesButton.Size = UDim2.new(0.5, -10, 0, 40)
 yesButton.Position = UDim2.new(0, 5, 1, -45)
 yesButton.Parent = confirmationFrame
+addCorner(yesButton, 4)
 
 local noButton = Instance.new("TextButton")
 noButton.Text = "No"
@@ -78,6 +80,7 @@ noButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
 noButton.Size = UDim2.new(0.5, -10, 0, 40)
 noButton.Position = UDim2.new(0.5, 5, 1, -45)
 noButton.Parent = confirmationFrame
+addCorner(noButton, 4)
 
 local CloseButton = Instance.new("TextButton")
 CloseButton.Size = UDim2.new(0, 20, 0, 20)
