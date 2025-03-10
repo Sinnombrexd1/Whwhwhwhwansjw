@@ -255,7 +255,7 @@ local isMinimized = false
 local normalSize = MainFrame.Size
 local TweenService = game:GetService("TweenService")
 
-MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.AnchorPoint = Vector2.new(0.5, -350, 0.5, -200)
 
 MinimizeButton.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
@@ -379,7 +379,7 @@ end
     return UIInstance
 end
 
-function Library.addButton(container, buttonText, descriptionText, callback)
+function Library.addButton(container, buttonText, callback)
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(1, -10, 0, 40)
     button.Text = buttonText
@@ -387,23 +387,11 @@ function Library.addButton(container, buttonText, descriptionText, callback)
     button.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.BackgroundTransparency = 0.4
-    button.AutoButtonColor = true -- Asegura que el botón sea interactuable
     button.Parent = container
     addCorner(button, 5)
     button.MouseButton1Click:Connect(callback)
-
-    local description = Instance.new("TextLabel")
-    description.Size = UDim2.new(1, -10, 0, 20)
-    description.Position = UDim2.new(0, 0, 1, 5)
-    description.Text = descriptionText or "" 
-    description.TextSize = 9
-    description.TextColor3 = Color3.fromRGB(200, 200, 200)
-    description.BackgroundTransparency = 1
-    description.Parent = button.Parent -- Asegura que el Label no sea hijo del botón, sino del contenedor
-
-    return button, description
+    return button
 end
-
 function Library.AddColorPicker(container, labelText, defaultColor, callback)
     local ColorPicker = Instance.new("Frame")
     ColorPicker.Size = UDim2.new(1, -10, 0, 45)
