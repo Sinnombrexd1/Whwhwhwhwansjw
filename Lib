@@ -387,6 +387,7 @@ function Library.addButton(container, buttonText, descriptionText, callback)
     button.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.BackgroundTransparency = 0.4
+    button.Position = UDim2.new(0, 0, 0, -5)  -- Ajuste para mover el texto más arriba
     button.Parent = container
     addCorner(button, 5)
 
