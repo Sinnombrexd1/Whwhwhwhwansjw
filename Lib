@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("libre")
+print("lib")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -57,7 +57,7 @@ confirmationLabel.TextSize = 20
 confirmationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 confirmationLabel.BackgroundTransparency = 1
 confirmationLabel.Size = UDim2.new(1, 0, 0, 50)
-confirmationLabel.ZIndex = 18
+confirmationLabel.ZIndex = 20
 confirmationLabel.Parent = confirmationFrame
 
 local yesButton = Instance.new("TextButton")
@@ -156,14 +156,14 @@ local function toggleButton()
     MainFrame.Visible = isActive
     clickSound:Play()
 
-    button:TweenSize(UDim2.new(0, 70, 0, 60), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    button:TweenSize(UDim2.new(0, 70, 0, 65), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
     wait(0.2)
-    button:TweenSize(UDim2.new(0, 60, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
+    button:TweenSize(UDim2.new(0, 50, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
 end
 
 button.MouseButton1Click:Connect(toggleButton)
 
-    local TopBar = Instance.new("Frame")
+local TopBar = Instance.new("Frame")
 TopBar.Size = UDim2.new(1, 0, 0, 30)
 TopBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 TopBar.BorderSizePixel = 0
@@ -180,7 +180,7 @@ shadow.BackgroundTransparency = 1
 shadow.ZIndex = -1
 shadow.Parent = MainFrame
     
-    local RedLine = Instance.new("Frame")
+local RedLine = Instance.new("Frame")
 RedLine.Size = UDim2.new(1, 0, 0, 2)
 RedLine.Position = UDim2.new(0, 0, 0, 30)
 RedLine.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
@@ -255,8 +255,7 @@ local isMinimized = false
 local normalSize = MainFrame.Size
 local TweenService = game:GetService("TweenService")
 
-MainFrame.AnchorPoint = Vector2.new(0.5, -350, 0.5, -200)
-MainFrame.Position = UDim2.new(0.5, -350, 0.5, -200, MainFrame.Position.Y.Scale, MainFrame.Position.Y.Offset)
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 
 MinimizeButton.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
@@ -292,8 +291,8 @@ MinimizeButton.MouseLeave:Connect(function()
     }):Play()
 end)
     
-    local UIInstance = {TabsContainer = TabsContainer, Container = Container}
-    
+local UIInstance = {TabsContainer = TabsContainer, Container = Container}
+
 function UIInstance:AddTab(tabName)
     local tabButton = Instance.new("TextButton")
     tabButton.Size = UDim2.new(1, -10, 0, 40)
@@ -380,7 +379,7 @@ end
     return UIInstance
 end
 
-function Library.addButton(container, buttonText, callback)
+function Library.addButton(container, buttonText, descriptionText, callback)
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(1, -10, 0, 40)
     button.Text = buttonText
@@ -391,8 +390,19 @@ function Library.addButton(container, buttonText, callback)
     button.Parent = container
     addCorner(button, 5)
     button.MouseButton1Click:Connect(callback)
-    return button
+
+    local description = Instance.new("TextLabel")
+    description.Size = UDim2.new(1, -10, 0, 20)
+    description.Position = UDim2.new(0, 0, 1, 5)
+    description.Text = descriptionText or "" 
+    description.TextSize = 9
+    description.TextColor3 = Color3.fromRGB(200, 200, 200)
+    description.BackgroundTransparency = 1
+    description.Parent = button
+
+    return button, description
 end
+
 function Library.AddColorPicker(container, labelText, defaultColor, callback)
     local ColorPicker = Instance.new("Frame")
     ColorPicker.Size = UDim2.new(1, -10, 0, 45)
