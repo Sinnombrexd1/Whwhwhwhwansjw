@@ -379,7 +379,7 @@ end
     return UIInstance
 end
 
-function Library.addButton(container, buttonText, callback)
+function Library.addButton(container, buttonText, callback, descriptionText)
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(1, -10, 0, 40)
     button.Text = buttonText
@@ -389,8 +389,19 @@ function Library.addButton(container, buttonText, callback)
     button.BackgroundTransparency = 0.4
     button.Parent = container
     addCorner(button, 5)
+    
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -10, 0, 20)
+    label.Position = UDim2.new(0, 0, 1, 2) -- Justo debajo del botón
+    label.Text = descriptionText or ""
+    label.TextSize = 10
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Parent = button
+
     button.MouseButton1Click:Connect(callback)
-    return button
+    
+    return button, label
 end
 
 function Library.AddColorPicker(container, labelText, defaultColor, callback)
