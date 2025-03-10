@@ -387,6 +387,7 @@ function Library.addButton(container, buttonText, descriptionText, callback)
     button.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.BackgroundTransparency = 0.4
+    button.AutoButtonColor = true -- Asegura que el botón sea interactuable
     button.Parent = container
     addCorner(button, 5)
     button.MouseButton1Click:Connect(callback)
@@ -398,7 +399,7 @@ function Library.addButton(container, buttonText, descriptionText, callback)
     description.TextSize = 9
     description.TextColor3 = Color3.fromRGB(200, 200, 200)
     description.BackgroundTransparency = 1
-    description.Parent = button
+    description.Parent = button.Parent -- Asegura que el Label no sea hijo del botón, sino del contenedor
 
     return button, description
 end
