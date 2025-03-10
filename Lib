@@ -392,6 +392,7 @@ function Library.addButton(container, buttonText, callback)
     button.MouseButton1Click:Connect(callback)
     return button
 end
+
 function Library.AddColorPicker(container, labelText, defaultColor, callback)
     local ColorPicker = Instance.new("Frame")
     ColorPicker.Size = UDim2.new(1, -10, 0, 45)
