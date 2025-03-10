@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("lib")
+print("libre")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -393,7 +393,7 @@ function Library.addButton(container, buttonText, descriptionText, callback)
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(1, -10, 0, 20)
     label.Position = UDim2.new(0, 0, 0, button.TextBounds.Y + 5) -- Justo debajo del texto
-    label.Text = descriptionText
+    label.Text = tostring(descriptionText) -- Asegúrate de que descriptionText sea un string
     label.TextSize = 10
     label.BackgroundTransparency = 1
     label.TextColor3 = Color3.fromRGB(200, 200, 200)
