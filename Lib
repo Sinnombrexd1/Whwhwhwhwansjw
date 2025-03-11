@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("12")
+print("su")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -377,6 +377,52 @@ function UIInstance:AddTab(tabName)
 end
 
     return UIInstance
+end
+
+function Library.Notification(texttitle, textdesc, textbtn)
+    local NotificationFrame = Instance.new("Frame")
+    NotificationFrame.Size = UDim2.new(0, 670, 0, 360)
+    NotificationFrame.Position = UDim2.new(0.5, -335, 0.5, -180)
+    NotificationFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    NotificationFrame.ZIndex = 23
+    NotificationFrame.Parent = ScreenGui
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Size = UDim2.new(1, 0, 0, 50)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = texttitle
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.Font = Enum.Font.SourceSansBold
+    TitleLabel.TextSize = 24
+    TitleLabel.ZIndex = 23
+    TitleLabel.Parent = NotificationFrame
+
+    local DescLabel = Instance.new("TextLabel")
+    DescLabel.Size = UDim2.new(1, -40, 0, 200)
+    DescLabel.Position = UDim2.new(0, 20, 0, 60)
+    DescLabel.BackgroundTransparency = 1
+    DescLabel.Text = textdesc
+    DescLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    DescLabel.Font = Enum.Font.SourceSans
+    DescLabel.TextSize = 20
+    DescLabel.TextWrapped = true
+    DescLabel.ZIndex = 23
+    DescLabel.Parent = NotificationFrame
+
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Size = UDim2.new(0, 150, 0, 40)
+    CloseButton.Position = UDim2.new(0.5, -75, 1, -60)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    CloseButton.Text = textbtn
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.Font = Enum.Font.SourceSansBold
+    CloseButton.TextSize = 20
+    CloseButton.ZIndex = 23
+    CloseButton.Parent = NotificationFrame
+
+    CloseButton.MouseButton1Click:Connect(function()
+        NotificationFrame:Destroy()
+    end)
 end
 
 function Library.addButton(container, buttonText, descriptionText, callback)
@@ -888,52 +934,6 @@ function Library.addLabel(container, text)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 8)
     corner.Parent = labelFrame
-end
-
-function Library.Notification(texttitle, textdesc, textbtn)
-    local NotificationFrame = Instance.new("Frame")
-    NotificationFrame.Size = UDim2.new(0, 300, 0, 100)
-    NotificationFrame.Position = UDim2.new(0.5, -150, 0.5, -50)
-    NotificationFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    NotificationFrame.ZIndex = 23
-    NotificationFrame.Parent = MainFrame
-
-    local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Size = UDim2.new(1, 0, 0, 30)
-    TitleLabel.BackgroundTransparency = 1
-    TitleLabel.Text = texttitle
-    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TitleLabel.Font = Enum.Font.SourceSansBold
-    TitleLabel.TextSize = 18
-    TitleLabel.ZIndex = 23
-    TitleLabel.Parent = NotificationFrame
-
-    local DescLabel = Instance.new("TextLabel")
-    DescLabel.Size = UDim2.new(1, -20, 0, 40)
-    DescLabel.Position = UDim2.new(0, 10, 0, 35)
-    DescLabel.BackgroundTransparency = 1
-    DescLabel.Text = textdesc
-    DescLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-    DescLabel.Font = Enum.Font.SourceSans
-    DescLabel.TextSize = 16
-    DescLabel.TextWrapped = true
-    DescLabel.ZIndex = 23
-    DescLabel.Parent = NotificationFrame
-
-    local CloseButton = Instance.new("TextButton")
-    CloseButton.Size = UDim2.new(0, 80, 0, 25)
-    CloseButton.Position = UDim2.new(0.5, -40, 1, -30)
-    CloseButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    CloseButton.Text = textbtn
-    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    CloseButton.Font = Enum.Font.SourceSansBold
-    CloseButton.TextSize = 16
-    CloseButton.ZIndex = 23
-    CloseButton.Parent = NotificationFrame
-
-    CloseButton.MouseButton1Click:Connect(function()
-        NotificationFrame:Destroy()
-    end)
 end
 
 return Library
