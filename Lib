@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("su")
+print("12")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -380,12 +380,16 @@ end
 end
 
 function Library.Notification(texttitle, textdesc, textbtn)
+    while not MainFrame or not MainFrame.Parent do
+        task.wait()
+    end
+
     local NotificationFrame = Instance.new("Frame")
-    NotificationFrame.Size = UDim2.new(0, 670, 0, 360)
-    NotificationFrame.Position = UDim2.new(0.5, -335, 0.5, -180)
+    NotificationFrame.Size = MainFrame.Size
+    NotificationFrame.Position = MainFrame.Position
     NotificationFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     NotificationFrame.ZIndex = 23
-    NotificationFrame.Parent = ScreenGui
+    NotificationFrame.Parent = MainFrame.Parent
 
     local TitleLabel = Instance.new("TextLabel")
     TitleLabel.Size = UDim2.new(1, 0, 0, 50)
