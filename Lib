@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("xd")
+print("12")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -255,7 +255,7 @@ local isMinimized = false
 local normalSize = MainFrame.Size
 local TweenService = game:GetService("TweenService")
 
-MainFrame.AnchorPoint = Vector2.new(0.5, -350, 0.5, -200)
+MainFrame.AnchorPoint = Vector2.new(0.5, -350, 0.5, -300)
 
 MinimizeButton.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
@@ -891,99 +891,48 @@ function Library.addLabel(container, text)
 end
 
 function Library.Notification(texttitle, textdesc, textbtn)
-    local NotificationHold = Instance.new("TextButton")
     local NotificationFrame = Instance.new("Frame")
-    local OkayBtn = Instance.new("TextButton")
-    local OkayBtnTitle = Instance.new("TextLabel")
-    local NotificationTitle = Instance.new("TextLabel")
-    local NotificationDesc = Instance.new("TextLabel")
-
-    local MainFrame = script.Parent
-
-    NotificationHold.Name = "NotificationHold"
-    NotificationHold.Parent = MainFrame
-    NotificationHold.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    NotificationHold.BackgroundTransparency = 0.7
-    NotificationHold.BorderSizePixel = 0
-    NotificationHold.Size = UDim2.new(0, 560, 0, 319)
-    NotificationHold.AutoButtonColor = false
-    NotificationHold.Font = Enum.Font.SourceSans
-    NotificationHold.Text = ""
-    NotificationHold.TextColor3 = Color3.fromRGB(0, 0, 0)
-    NotificationHold.TextSize = 14.000
-    NotificationHold.ZIndex = 17
-
-    task.wait(0.4)
-
-    NotificationFrame.Name = "NotificationFrame"
-    NotificationFrame.Parent = NotificationHold
-    NotificationFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    NotificationFrame.Size = UDim2.new(0, 300, 0, 100)
+    NotificationFrame.Position = UDim2.new(0.5, -150, 0.5, -50)
     NotificationFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    NotificationFrame.BorderSizePixel = 0
-    NotificationFrame.ClipsDescendants = true
-    NotificationFrame.Position = UDim2.new(0.5, 0, 0.498, 0)
-    NotificationFrame.Size = UDim2.new(0, 164, 0, 193)
-    NotificationFrame.ZIndex = 17
+    NotificationFrame.ZIndex = 23
+    NotificationFrame.Parent = MainFrame
 
-    OkayBtn.Name = "OkayBtn"
-    OkayBtn.Parent = NotificationFrame
-    OkayBtn.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-    OkayBtn.Position = UDim2.new(0.06, 0, 0.72, 0)
-    OkayBtn.Size = UDim2.new(0, 144, 0, 42)
-    OkayBtn.AutoButtonColor = false
-    OkayBtn.Font = Enum.Font.SourceSans
-    OkayBtn.Text = ""
-    OkayBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-    OkayBtn.TextSize = 14.000
-    OkayBtn.ZIndex = 17
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Size = UDim2.new(1, 0, 0, 30)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = texttitle
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.Font = Enum.Font.SourceSansBold
+    TitleLabel.TextSize = 18
+    TitleLabel.ZIndex = 23
+    TitleLabel.Parent = NotificationFrame
 
-    OkayBtnTitle.Name = "OkayBtnTitle"
-    OkayBtnTitle.Parent = OkayBtn
-    OkayBtnTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    OkayBtnTitle.BackgroundTransparency = 1.000
-    OkayBtnTitle.Position = UDim2.new(0.1, 0, 0, 0)
-    OkayBtnTitle.Size = UDim2.new(0, 120, 0, 42)
-    OkayBtnTitle.Font = Enum.Font.Gotham
-    OkayBtnTitle.Text = textbtn
-    OkayBtnTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    OkayBtnTitle.TextSize = 14.000
-    OkayBtnTitle.TextXAlignment = Enum.TextXAlignment.Center
-    OkayBtnTitle.ZIndex = 17
+    local DescLabel = Instance.new("TextLabel")
+    DescLabel.Size = UDim2.new(1, -20, 0, 40)
+    DescLabel.Position = UDim2.new(0, 10, 0, 35)
+    DescLabel.BackgroundTransparency = 1
+    DescLabel.Text = textdesc
+    DescLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    DescLabel.Font = Enum.Font.SourceSans
+    DescLabel.TextSize = 16
+    DescLabel.TextWrapped = true
+    DescLabel.ZIndex = 23
+    DescLabel.Parent = NotificationFrame
 
-    NotificationTitle.Name = "NotificationTitle"
-    NotificationTitle.Parent = NotificationFrame
-    NotificationTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    NotificationTitle.BackgroundTransparency = 1.000
-    NotificationTitle.Position = UDim2.new(0.07, 0, 0.08, 0)
-    NotificationTitle.Size = UDim2.new(0, 143, 0, 26)
-    NotificationTitle.Font = Enum.Font.Gotham
-    NotificationTitle.Text = texttitle
-    NotificationTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    NotificationTitle.TextSize = 18.000
-    NotificationTitle.TextXAlignment = Enum.TextXAlignment.Left
-    NotificationTitle.ZIndex = 17
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Size = UDim2.new(0, 80, 0, 25)
+    CloseButton.Position = UDim2.new(0.5, -40, 1, -30)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    CloseButton.Text = textbtn
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.Font = Enum.Font.SourceSansBold
+    CloseButton.TextSize = 16
+    CloseButton.ZIndex = 23
+    CloseButton.Parent = NotificationFrame
 
-    NotificationDesc.Name = "NotificationDesc"
-    NotificationDesc.Parent = NotificationFrame
-    NotificationDesc.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    NotificationDesc.BackgroundTransparency = 1.000
-    NotificationDesc.Position = UDim2.new(0.07, 0, 0.22, 0)
-    NotificationDesc.Size = UDim2.new(0, 143, 0, 91)
-    NotificationDesc.Font = Enum.Font.Gotham
-    NotificationDesc.Text = textdesc
-    NotificationDesc.TextColor3 = Color3.fromRGB(255, 255, 255)
-    NotificationDesc.TextSize = 15.000
-    NotificationDesc.TextWrapped = true
-    NotificationDesc.TextXAlignment = Enum.TextXAlignment.Left
-    NotificationDesc.TextYAlignment = Enum.TextYAlignment.Top
-    NotificationDesc.ZIndex = 17
-
-    OkayBtn.MouseButton1Click:Connect(function()
-        NotificationFrame.Size = UDim2.new(0, 0, 0, 0)
-        task.wait(0.4)
-        NotificationHold.BackgroundTransparency = 1
-        task.wait(.3)
-        NotificationHold:Destroy()
+    CloseButton.MouseButton1Click:Connect(function()
+        NotificationFrame:Destroy()
     end)
 end
 
