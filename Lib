@@ -138,6 +138,7 @@ button.Font = Enum.Font.Gotham
 button.TextSize = 14
 button.TextColor3 = Color3.fromRGB(255, 255, 255)
 button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+button.BackgroundTransparency = 0.3
 button.Draggable = true
 button.BorderSizePixel = 0
 button.Parent = screenGui
@@ -385,7 +386,6 @@ function Library.addButton(container, buttonText, descriptionText, callback)
     button.TextSize = 10
     button.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.BackgroundTransparency = 0.4
     button.Parent = container
     addCorner(button, 5)
 
