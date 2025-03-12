@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("fukc")
+print(".")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -297,7 +297,7 @@ function UIInstance:AddTab(tabName)
     addCorner(tabFrame, 5)
     
     local frameScroll = Instance.new("ScrollingFrame")
-    frameScroll.Size = UDim2.new(1, -10, 1, -10)
+    frameScroll.Size = UDim2.new(1, -10, 1, -15)
     frameScroll.Position = UDim2.new(0, 5, 0, 5)
     frameScroll.CanvasSize = UDim2.new(0, 0, 10, 0)
     frameScroll.ScrollBarThickness = 0
