@@ -602,16 +602,17 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
     sliderFrame.Parent = container
     addCorner(sliderFrame, 6)
 
-    local sliderLabel = Instance.new("TextLabel")
-    sliderLabel.Size = UDim2.new(1, -20, 0, 20)
-    sliderLabel.Position = UDim2.new(0, 10, 0, 5)
-    sliderLabel.Text = name .. ": " .. defaultValue
-    sliderLabel.Font = Enum.Font.Gotham
-    sliderLabel.TextSize = 18
-    sliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    sliderLabel.TextXAlignment = Enum.TextXAlignment.Left
-    sliderLabel.BackgroundTransparency = 1
-    sliderLabel.Parent = sliderFrame
+    local sliderTextBox = Instance.new("TextBox")
+    sliderTextBox.Size = UDim2.new(1, -20, 0, 20)
+    sliderTextBox.Position = UDim2.new(0, 10, 0, 5)
+    sliderTextBox.Text = tostring(defaultValue)
+    sliderTextBox.Font = Enum.Font.Gotham
+    sliderTextBox.TextSize = 18
+    sliderTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    sliderTextBox.TextXAlignment = Enum.TextXAlignment.Left
+    sliderTextBox.BackgroundTransparency = 1
+    sliderTextBox.ClearTextOnFocus = false
+    sliderTextBox.Parent = sliderFrame
 
     local sliderTrack = Instance.new("Frame")
     sliderTrack.Size = UDim2.new(1, -40, 0, 6)
@@ -649,7 +650,7 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
         local thumbX = (value - minValue) / (maxValue - minValue)
         sliderThumb.Position = UDim2.new(thumbX, -7, 0.5, -7)
         sliderFill.Size = UDim2.new(thumbX, 0, 1, 0)
-        sliderLabel.Text = name .. ": " .. value
+        sliderTextBox.Text = tostring(value)
         callback(value)
     end
 
@@ -667,11 +668,26 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
         end
     end)
 
+    sliderTextBox.FocusLost:Connect(function()
+        local value = tonumber(sliderTextBox.Text)
+        if value then
+            value = math.clamp(value, minValue, maxValue)
+            value = round(value)
+            local thumbX = (value - minValue) / (maxValue - minValue)
+            sliderThumb.Position = UDim2.new(thumbX, -7, 0.5, -7)
+            sliderFill.Size = UDim2.new(thumbX, 0, 1, 0)
+            sliderTextBox.Text = tostring(value)
+            callback(value)
+        else
+            sliderTextBox.Text = tostring(defaultValue)  -- Reset to default if invalid input
+        end
+    end)
+
     local initialValue = round(defaultValue)
     local initialX = (initialValue - minValue) / (maxValue - minValue)
     sliderThumb.Position = UDim2.new(initialX, -7, 0.5, -7)
     sliderFill.Size = UDim2.new(initialX, 0, 1, 0)
-    sliderLabel.Text = name .. ": " .. initialValue
+    sliderTextBox.Text = tostring(initialValue)
 end
 
 local TweenService = game:GetService("TweenService")
