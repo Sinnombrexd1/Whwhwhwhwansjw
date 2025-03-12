@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print("12")
+print("lol")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -255,7 +255,7 @@ local isMinimized = false
 local normalSize = MainFrame.Size
 local TweenService = game:GetService("TweenService")
 
-MainFrame.AnchorPoint = Vector2.new(0.5, -350, 0.5, -300)
+MainFrame.AnchorPoint = Vector2.new(0.5, -300, 0.5, -300)
 
 MinimizeButton.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
@@ -379,55 +379,8 @@ end
     return UIInstance
 end
 
-function Library.Notification(texttitle, textdesc, textbtn)
-    while not MainFrame or not MainFrame.Parent do
-        task.wait()
-    end
+function Library.CoreNotification()
 
-    local NotificationFrame = Instance.new("Frame")
-    NotificationFrame.Size = MainFrame.Size
-    NotificationFrame.Position = MainFrame.Position
-    NotificationFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    NotificationFrame.ZIndex = 23
-    NotificationFrame.Parent = MainFrame.Parent
-
-    local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Size = UDim2.new(1, 0, 0, 50)
-    TitleLabel.BackgroundTransparency = 1
-    TitleLabel.Text = texttitle
-    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TitleLabel.Font = Enum.Font.SourceSansBold
-    TitleLabel.TextSize = 24
-    TitleLabel.ZIndex = 23
-    TitleLabel.Parent = NotificationFrame
-
-    local DescLabel = Instance.new("TextLabel")
-    DescLabel.Size = UDim2.new(1, -40, 0, 200)
-    DescLabel.Position = UDim2.new(0, 20, 0, 60)
-    DescLabel.BackgroundTransparency = 1
-    DescLabel.Text = textdesc
-    DescLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-    DescLabel.Font = Enum.Font.SourceSans
-    DescLabel.TextSize = 20
-    DescLabel.TextWrapped = true
-    DescLabel.ZIndex = 23
-    DescLabel.Parent = NotificationFrame
-
-    local CloseButton = Instance.new("TextButton")
-    CloseButton.Size = UDim2.new(0, 150, 0, 40)
-    CloseButton.Position = UDim2.new(0.5, -75, 1, -60)
-    CloseButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    CloseButton.Text = textbtn
-    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    CloseButton.Font = Enum.Font.SourceSansBold
-    CloseButton.TextSize = 20
-    CloseButton.ZIndex = 23
-    CloseButton.Parent = NotificationFrame
-
-    CloseButton.MouseButton1Click:Connect(function()
-        NotificationFrame:Destroy()
-    end)
-end
 
 function Library.addButton(container, buttonText, descriptionText, callback)
     local button = Instance.new("TextButton")
@@ -620,7 +573,7 @@ function Library.addToggle(container, labelText, defaultState, callback)
     toggleLabel.Size = UDim2.new(1, -60, 1, 0)
     toggleLabel.Position = UDim2.new(0, 10, 0, 0)
     toggleLabel.Text = labelText
-    toggleLabel.TextSize = 11
+    toggleLabel.TextSize = 10
     toggleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     toggleLabel.BackgroundTransparency = 1
     toggleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -763,15 +716,15 @@ function Library.addDropdown(container, labelText, options, callback)
 
     local dropdownFrame = Instance.new("Frame")
     dropdownFrame.Size = UDim2.new(0.5, 0, 1, 0)
-    dropdownFrame.Position = UDim2.new(0.59, 0, 0, 0)  -- Ajuste de la posición
+    dropdownFrame.Position = UDim2.new(0.59, 0, 0, 0)
     dropdownFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
     dropdownFrame.Parent = Dropdown
     addCorner(dropdownFrame, 5)
 
     local dropdownButton = Instance.new("TextButton")
     dropdownButton.Text = "Select"
-    dropdownButton.Size = UDim2.new(0.8, 0, 1, 0)  -- Rellenar el cuadro completamente
-    dropdownButton.Position = UDim2.new(0, 0, 0, 0)  -- Ajuste de la posición
+    dropdownButton.Size = UDim2.new(0.8, 0, 1, 0)
+    dropdownButton.Position = UDim2.new(0, 0, 0, 0)
     dropdownButton.Font = Enum.Font.Gotham
     dropdownButton.TextSize = 13
     dropdownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -780,7 +733,7 @@ function Library.addDropdown(container, labelText, options, callback)
     addCorner(dropdownButton, 5)
 
     local dropdownList = Instance.new("Frame")
-    dropdownList.Size = UDim2.new(1, 0, 0, #options * 5)  -- Ajuste de altura según las opciones
+    dropdownList.Size = UDim2.new(1, 0, 0, 0) -- Inicialmente cerrado
     dropdownList.Position = UDim2.new(0, 0, 1, 5)
     dropdownList.Visible = false
     dropdownList.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
@@ -793,17 +746,30 @@ function Library.addDropdown(container, labelText, options, callback)
     scrollFrame.Position = UDim2.new(0, 0, 0, 0)
     scrollFrame.BackgroundTransparency = 1
     scrollFrame.ScrollBarThickness = 2
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0) -- Se actualizará después
     scrollFrame.Parent = dropdownList
 
     local dropdownLayout = Instance.new("UIListLayout")
     dropdownLayout.Parent = scrollFrame
     dropdownLayout.Padding = UDim.new(0, 2)
 
+    local function updateDropdownSize()
+        task.wait() -- Asegurar que los elementos se posicionen primero
+        local contentSize = dropdownLayout.AbsoluteContentSize.Y
+        scrollFrame.CanvasSize = UDim2.new(0, 0, 0, contentSize)
+        dropdownList.Size = UDim2.new(1, 0, 0, math.min(contentSize, 150)) -- Límite de altura para scroll
+    end
+
     dropdownButton.MouseButton1Click:Connect(function()
-        local goal = dropdownList.Visible and UDim2.new(1, 0, 0, 0) or UDim2.new(1, 0, 0, #options * 10 + 10)
-        local tween = TweenService:Create(dropdownList, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = goal})
-        tween:Play()
-        dropdownList.Visible = not dropdownList.Visible
+        if dropdownList.Visible then
+            local tween = TweenService:Create(dropdownList, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 0, 0)})
+            tween:Play()
+            tween.Completed:Wait()
+            dropdownList.Visible = false
+        else
+            updateDropdownSize()
+            dropdownList.Visible = true
+        end
     end)
 
     for _, option in ipairs(options) do
@@ -834,6 +800,8 @@ function Library.addDropdown(container, labelText, options, callback)
             end
         end)
     end
+
+    updateDropdownSize()
 end
 
 function Library.addTextbox(container, labelText, placeholderText, defaultText, callback)
