@@ -176,7 +176,7 @@ shadow.Size = UDim2.new(1, 30, 1, 30)
 shadow.Position = UDim2.new(0, -15, 0, -15)
 shadow.Image = "rbxassetid://1316045217"
 shadow.ImageTransparency = 0.5
-shadow.BackgroundTransparency = 1
+shadow.BackgroundTransparency = 0.5
 shadow.ZIndex = -1
 shadow.Parent = MainFrame
     
@@ -228,6 +228,7 @@ RedLine.Parent = TopBar
     TabsContainer.Position = UDim2.new(0, 0, 0, 30)
     TabsContainer.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     TabsContainer.BorderSizePixel = 0
+    TabsContainer.BackgroundTransparency = 1
     TabsContainer.CanvasSize = UDim2.new(0, 0, 20, 0)
     TabsContainer.ScrollBarThickness = 1
     TabsContainer.Parent = MainFrame
@@ -302,7 +303,7 @@ function UIInstance:AddTab(tabName)
     frameScroll.CanvasSize = UDim2.new(0, 0, 20, 0)
     frameScroll.ScrollBarThickness = 1
     frameScroll.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-    frameScroll.BackgroundTransparency = 0.2
+    frameScroll.BackgroundTransparency = 1
     frameScroll.ScrollingDirection = Enum.ScrollingDirection.Y
     frameScroll.Parent = tabFrame
     addCorner(frameScroll, 5)
@@ -734,10 +735,10 @@ function Library.addDropdown(container, labelText, options, callback)
     dropdownLayout.Padding = UDim.new(0, 2)
 
     local function updateDropdownSize()
-        task.wait() -- Asegurar que los elementos se posicionen primero
+        task.wait() 
         local contentSize = dropdownLayout.AbsoluteContentSize.Y
         scrollFrame.CanvasSize = UDim2.new(0, 0, 0, contentSize)
-        return math.min(contentSize, 150) -- Límite de altura para scroll
+        return math.min(contentSize, 20) -- Límite de altura para scroll
     end
 
     dropdownButton.MouseButton1Click:Connect(function()
