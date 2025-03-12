@@ -2,7 +2,7 @@ local Library = {}
 
 local gui = Instance.new("ScreenGui")
 gui.Parent = game:GetService("CoreGui")
-print(".")
+print("xd")
 local function addCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius)
@@ -602,18 +602,33 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
     sliderFrame.Parent = container
     addCorner(sliderFrame, 6)
 
+    -- Label para el nombre del slider
+    local sliderLabel = Instance.new("TextLabel")
+    sliderLabel.Size = UDim2.new(1, -20, 0, 20)
+    sliderLabel.Position = UDim2.new(0, 10, 0, 5)
+    sliderLabel.Text = name .. ": " .. tostring(defaultValue)
+    sliderLabel.Font = Enum.Font.Gotham
+    sliderLabel.TextSize = 18
+    sliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    sliderLabel.TextXAlignment = Enum.TextXAlignment.Left
+    sliderLabel.BackgroundTransparency = 1
+    sliderLabel.Parent = sliderFrame
+
+    -- TextBox para el valor editable
     local sliderTextBox = Instance.new("TextBox")
-    sliderTextBox.Size = UDim2.new(1, -20, 0, 20)
-    sliderTextBox.Position = UDim2.new(0, 10, 0, 5)
+    sliderTextBox.Size = UDim2.new(0, 60, 0, 20)
+    sliderTextBox.Position = UDim2.new(1, -70, 0, 5)
     sliderTextBox.Text = tostring(defaultValue)
     sliderTextBox.Font = Enum.Font.Gotham
     sliderTextBox.TextSize = 18
     sliderTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    sliderTextBox.TextXAlignment = Enum.TextXAlignment.Left
-    sliderTextBox.BackgroundTransparency = 1
+    sliderTextBox.TextXAlignment = Enum.TextXAlignment.Center
+    sliderTextBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     sliderTextBox.ClearTextOnFocus = false
     sliderTextBox.Parent = sliderFrame
+    addCorner(sliderTextBox, 6)
 
+    -- Track del slider
     local sliderTrack = Instance.new("Frame")
     sliderTrack.Size = UDim2.new(1, -40, 0, 6)
     sliderTrack.Position = UDim2.new(0, 20, 0, 30)
@@ -621,12 +636,14 @@ function Library.addSlider(container, name, minValue, maxValue, defaultValue, in
     sliderTrack.Parent = sliderFrame
     addCorner(sliderTrack, 6)
 
+    -- Relleno del slider
     local sliderFill = Instance.new("Frame")
     sliderFill.Size = UDim2.new(0, 0, 1, 0)
     sliderFill.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     sliderFill.Parent = sliderTrack
     addCorner(sliderFill, 6)
 
+    -- Thumb del slider
     local sliderThumb = Instance.new("Frame")
     sliderThumb.Size = UDim2.new(0, 14, 0, 14)
     sliderThumb.Position = UDim2.new(0, -7, 0.5, -7)
