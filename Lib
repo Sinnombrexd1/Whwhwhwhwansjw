@@ -737,7 +737,7 @@ function Library.addDropdown(container, labelText, options, callback)
         task.wait() 
         local contentSize = dropdownLayout.AbsoluteContentSize.Y
         scrollFrame.CanvasSize = UDim2.new(0, 0, 0, contentSize)
-        return math.min(contentSize, 20) -- Límite de altura para scroll
+        return math.min(contentSize, 40) -- Límite de altura para scroll
     end
 
     dropdownButton.MouseButton1Click:Connect(function()
