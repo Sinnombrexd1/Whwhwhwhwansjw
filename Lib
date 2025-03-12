@@ -228,7 +228,7 @@ RedLine.Parent = TopBar
     TabsContainer.Position = UDim2.new(0, 0, 0, 30)
     TabsContainer.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     TabsContainer.BorderSizePixel = 0
-    TabsContainer.CanvasSize = UDim2.new(0, 0, 20, 0)
+    TabsContainer.CanvasSize = UDim2.new(0, 0, 10, 0)
     TabsContainer.ScrollBarThickness = 0
     TabsContainer.Parent = MainFrame
     addCorner(TabsContainer, 5)
@@ -299,7 +299,7 @@ function UIInstance:AddTab(tabName)
     local frameScroll = Instance.new("ScrollingFrame")
     frameScroll.Size = UDim2.new(1, -10, 1, -10)
     frameScroll.Position = UDim2.new(0, 5, 0, 5)
-    frameScroll.CanvasSize = UDim2.new(0, 0, 20, 0)
+    frameScroll.CanvasSize = UDim2.new(0, 0, 10, 0)
     frameScroll.ScrollBarThickness = 0
     frameScroll.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
     frameScroll.BackgroundTransparency = 0.2
