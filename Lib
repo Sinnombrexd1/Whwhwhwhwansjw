@@ -730,7 +730,7 @@ function Library.addDropdown(container, labelText, options, callback, buttonText
     addCorner(dropdownFrame, 5)  
   
     local dropdownButton = Instance.new("TextButton")  
-    dropdownButton.Text = buttonText or "Select"
+    dropdownButton.Text = buttonText or "Select"  -- Ahora puedes cambiar el texto aquí  
     dropdownButton.Size = UDim2.new(0.8, 0, 1, 0)  
     dropdownButton.Position = UDim2.new(0, 0, 0, 0)  
     dropdownButton.Font = Enum.Font.Gotham  
