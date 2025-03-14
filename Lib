@@ -704,7 +704,7 @@ end
 
 local TweenService = game:GetService("TweenService")
 
-function Library.addDropdown(container, labelText, options, callback, buttonText)  
+function Library.addDropdown(container, labelText, buttonText, options, callback)  
     local Dropdown = Instance.new("Frame")  
     Dropdown.Size = UDim2.new(1, 0, 0, 45)  
     Dropdown.BackgroundColor3 = Color3.fromRGB(33, 33, 33)  
@@ -730,7 +730,7 @@ function Library.addDropdown(container, labelText, options, callback, buttonText
     addCorner(dropdownFrame, 5)  
   
     local dropdownButton = Instance.new("TextButton")  
-    dropdownButton.Text = buttonText or "Select"  -- Ahora puedes cambiar el texto aquí  
+    dropdownButton.Text = buttonText  -- Aquí se usa el texto personalizado  
     dropdownButton.Size = UDim2.new(0.8, 0, 1, 0)  
     dropdownButton.Position = UDim2.new(0, 0, 0, 0)  
     dropdownButton.Font = Enum.Font.Gotham  
